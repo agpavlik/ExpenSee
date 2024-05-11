@@ -35,6 +35,18 @@ const EXPENSES_DATA = [
     amount: 18.59,
     date: new Date("2024-02-18"),
   },
+  {
+    id: "e6",
+    description: "Apple",
+    amount: 1.99,
+    date: new Date("2024-03-19"),
+  },
+  {
+    id: "e7",
+    description: "Printer",
+    amount: 200.65,
+    date: new Date("2024-04-20"),
+  },
 ];
 
 function ExpensesOutput({ expenses, expensesPeriod }) {
@@ -51,7 +63,9 @@ export default ExpensesOutput;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 0,
     backgroundColor: GlobalStyles.colors.primary500,
   },
 });
