@@ -4,12 +4,14 @@ import { useNavigation } from "@react-navigation/native";
 import { GlobalStyles } from "../../constants/styles";
 import { getFormattedDate } from "../../util/date";
 
-function ExpenseItem({ description, amount, date }) {
+function ExpenseItem({ id, description, amount, date }) {
   // Use hook for navigation
   const navigation = useNavigation();
   // Navigate to ManageExpenses screen after press on any expense
+  // If tap an expense from an ExpenseItem then navigate to ManageExpense,
+  // we forward the idea of the expense that we wanna edit
   function expensePressHandler() {
-    navigation.navigate("ManageExpense");
+    navigation.navigate("ManageExpense", { expenseId: id });
   }
 
   return (
