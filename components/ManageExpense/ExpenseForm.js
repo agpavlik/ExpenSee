@@ -11,7 +11,7 @@ function ExpenseForm() {
         label="Amount"
         textInputConfig={{
           keyboardType: "decimal-pad",
-          onChangeText: amountChangedHandler,
+          onChangeText: amountChangedHandler, // this allows to point at a function that should be executed whenever a user enters a value here.
         }}
       />
       <Input
