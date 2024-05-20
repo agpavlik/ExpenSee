@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Alert } from "react-native";
 
 import Input from "./Input";
 import { useState } from "react";
@@ -28,12 +28,22 @@ function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
 
   // ---- Manage submition
   function submitHandler() {
-    // collect data
+    // Data collection
     const expenseData = {
       amount: +inputValues.amount, // + converts sa tring to a number
       date: new Date(inputValues.date), // convert a date string to a date object
       description: inputValues.description,
     };
+
+    // Data validation
+    const amountIsValid = !isNaN(expenseData.amount) && expenseData.amount > 0; // Check if its a number and greater then zero
+    const dateIsValid = expenseData.date.toString() !== "Invalid Date"; // Check if date is valid
+    const descriptionIsValid = expenseData.description.trim().length > 0; // Check if length is greater then zero
+
+    if (!amountIsValid || !dateIsValid || !descriptionIsValid) {
+      Alert.alert("Invalid input", "Please check your input values");
+      return;
+    }
 
     onSubmit(expenseData);
   }
