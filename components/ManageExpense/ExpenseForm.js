@@ -3,13 +3,14 @@ import { StyleSheet, Text, View } from "react-native";
 import Input from "./Input";
 import { useState } from "react";
 import Button from "../UI/Button";
+import { getFormattedDate } from "../../util/date";
 
-function ExpenseForm({ submitButtonLabel, onCancel, onSubmit }) {
+function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
   // ---- Handle input
   const [inputValues, setInputValues] = useState({
-    amount: "",
-    date: "",
-    description: "",
+    amount: defaultValues ? defaultValues.amount.toString() : "", // If default exist for 'Edit' or does not exist for 'Add'
+    date: defaultValues ? getFormattedDate(defaultValues.date) : "",
+    description: defaultValues ? defaultValues.description : "",
   });
 
   // Instead of creation of several handler for every input there is a solution for all the inputs

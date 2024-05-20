@@ -13,6 +13,11 @@ function ManageExpense({ route, navigation }) {
   const editedExpenseId = route.params?.expenseId; // ? - safe way of drilling into an object which might be undefned.
   const isEditing = !!editedExpenseId; // !! - way to convert value into boolean
 
+  // fetch selected expense
+  const selectedExpense = expensesCtx.expenses.find(
+    (expense) => expense.id === editedExpenseId
+  );
+
   // Wrap with useEffect to avoid that it's flickering initially,
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -61,6 +66,7 @@ function ManageExpense({ route, navigation }) {
         onCancel={cancelHandler}
         onSubmit={confirmHandler}
         submitButtonLabel={isEditing ? "Update" : "Add"}
+        defaultValues={selectedExpense}
       />
 
       {isEditing && (
