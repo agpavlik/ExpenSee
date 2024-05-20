@@ -23,8 +23,20 @@ function ExpenseForm({ submitButtonLabel, onCancel, onSubmit }) {
       };
     });
   }
-  // ----  // ----
-  function submitHandler() {}
+  // ----
+
+  // ---- Manage submition
+  function submitHandler() {
+    // collect data
+    const expenseData = {
+      amount: +inputValues.amount, // + converts sa tring to a number
+      date: new Date(inputValues.date), // convert a date string to a date object
+      description: inputValues.description,
+    };
+
+    onSubmit(expenseData);
+  }
+  // ----
 
   return (
     <View style={styles.form}>
