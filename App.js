@@ -72,7 +72,7 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{
-              headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+              headerStyle: { backgroundColor: GlobalStyles.colors.primary800 },
               headerTintColor: "white",
             }}
           >

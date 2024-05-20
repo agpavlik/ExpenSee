@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   input: {
-    backgroundColor: GlobalStyles.colors.primary100,
+    backgroundColor: GlobalStyles.colors.primary50,
     color: GlobalStyles.colors.primary700,
     padding: 6,
     borderRadius: 3,
