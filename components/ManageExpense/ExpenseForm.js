@@ -6,10 +6,11 @@ function ExpenseForm() {
   function amountChangedHandler() {}
 
   return (
-    <View>
-      <Text>Your Expense</Text>
-      <View>
+    <View style={styles.form}>
+      <Text style={styles.title}>Your Expense</Text>
+      <View style={styles.inputsRow}>
         <Input
+          style={styles.rowInput}
           label="Amount"
           textInputConfig={{
             keyboardType: "decimal-pad",
@@ -17,6 +18,7 @@ function ExpenseForm() {
           }}
         />
         <Input
+          style={styles.rowInput}
           label="Date"
           textInputConfig={{
             placeholder: "YYYY-MM-DD",
@@ -39,23 +41,23 @@ function ExpenseForm() {
 
 export default ExpenseForm;
 
-// const newLocal = StyleSheet.create({
-//   form: {
-//     marginTop: 40,
-//   },
-//   title: {
-//     fontSize: 24,
-//     fontWeight: "bold",
-//     color: "white",
-//     marginVertical: 24,
-//     textAlign: "center",
-//   },
-//   inputsRow: {
-//     flexDirection: "row",
-//     justifyContent: "space-between",
-//   },
-//   rowInput: {
-//     flex: 1,
-//   },
-// });
-// const styles = newLocal;
+const newLocal = StyleSheet.create({
+  form: {
+    marginTop: 40,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "white",
+    marginVertical: 24,
+    textAlign: "center",
+  },
+  inputsRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  rowInput: {
+    flex: 1,
+  },
+});
+const styles = newLocal;
