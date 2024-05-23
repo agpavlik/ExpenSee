@@ -6,7 +6,7 @@ import IconButton from "../components/UI/IconButton";
 import { GlobalStyles } from "../constants/styles";
 import { ExpensesContext } from "../store/expenses-context";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
-import { storeExpense } from "../util/http";
+import { storeExpense, updateExpense, deleteExpense } from "../util/http";
 
 function ManageExpense({ route, navigation }) {
   const expensesCtx = useContext(ExpensesContext);
@@ -28,7 +28,9 @@ function ManageExpense({ route, navigation }) {
     });
   }, [navigation, isEditing]);
 
-  function deleteExpenseHandler() {
+  // Delete expense
+  async function deleteExpenseHandler() {
+    await deleteExpense(editedExpenseId);
     expensesCtx.deleteExpense(editedExpenseId);
     navigation.goBack(); // goBack method is equivalent of pressing a back button
   }
@@ -37,6 +39,7 @@ function ManageExpense({ route, navigation }) {
     navigation.goBack();
   }
 
+  // Edit expense
   async function confirmHandler(expenseData) {
     if (isEditing) {
       expensesCtx.updateExpense(
@@ -48,6 +51,7 @@ function ManageExpense({ route, navigation }) {
         //   date: new Date("2024-05-12"),
         // }
       );
+      await updateExpense(editedExpenseId, expenseData);
     } else {
       const id = await storeExpense(expenseData); // post request
       expensesCtx.addExpense(
