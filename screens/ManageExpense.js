@@ -37,7 +37,7 @@ function ManageExpense({ route, navigation }) {
     navigation.goBack();
   }
 
-  function confirmHandler(expenseData) {
+  async function confirmHandler(expenseData) {
     if (isEditing) {
       expensesCtx.updateExpense(
         editedExpenseId,
@@ -49,9 +49,9 @@ function ManageExpense({ route, navigation }) {
         // }
       );
     } else {
-      storeExpense(expenseData); // post request
+      const id = await storeExpense(expenseData); // post request
       expensesCtx.addExpense(
-        expenseData
+        { ...expenseData, id: id }
         //   {
         //   description: "Test",
         //   amount: 19.99,
