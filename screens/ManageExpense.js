@@ -1,6 +1,7 @@
 import { useContext, useLayoutEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import IconButton from "../components/UI/IconButton";
 import { GlobalStyles } from "../constants/styles";
@@ -10,6 +11,7 @@ import { storeExpense, updateExpense, deleteExpense } from "../util/http";
 
 function ManageExpense({ route, navigation }) {
   const [isSubmitting, setIsSubmitting] = useState(false); //spinner
+  const [error, setError] = useState();
 
   const expensesCtx = useContext(ExpensesContext);
 
@@ -33,10 +35,15 @@ function ManageExpense({ route, navigation }) {
   // Delete expense
   async function deleteExpenseHandler() {
     setIsSubmitting(true);
-    await deleteExpense(editedExpenseId);
-    // setIsSubmitting(false);
-    expensesCtx.deleteExpense(editedExpenseId);
-    navigation.goBack(); // goBack method is equivalent of pressing a back button
+    try {
+      await deleteExpense(editedExpenseId);
+      // setIsSubmitting(false);
+      expensesCtx.deleteExpense(editedExpenseId);
+      navigation.goBack(); // goBack method is equivalent of pressing a back button
+    } catch (error) {
+      setError("Could not delete expense - please try again later!");
+      setIsSubmitting(false);
+    }
   }
 
   function cancelHandler() {
@@ -46,29 +53,38 @@ function ManageExpense({ route, navigation }) {
   // Edit expense
   async function confirmHandler(expenseData) {
     setIsSubmitting(true);
-    if (isEditing) {
-      expensesCtx.updateExpense(
-        editedExpenseId,
-        expenseData
-        //   {
-        //   description: "Test!!!!",
-        //   amount: 29.99,
-        //   date: new Date("2024-05-12"),
-        // }
-      );
-      await updateExpense(editedExpenseId, expenseData);
-    } else {
-      const id = await storeExpense(expenseData); // post request
-      expensesCtx.addExpense(
-        { ...expenseData, id: id }
-        //   {
-        //   description: "Test",
-        //   amount: 19.99,
-        //   date: new Date("2024-05-11"),
-        // }
-      );
+    try {
+      if (isEditing) {
+        expensesCtx.updateExpense(
+          editedExpenseId,
+          expenseData
+          //   {
+          //   description: "Test!!!!",
+          //   amount: 29.99,
+          //   date: new Date("2024-05-12"),
+          // }
+        );
+        await updateExpense(editedExpenseId, expenseData);
+      } else {
+        const id = await storeExpense(expenseData); // post request
+        expensesCtx.addExpense(
+          { ...expenseData, id: id }
+          //   {
+          //   description: "Test",
+          //   amount: 19.99,
+          //   date: new Date("2024-05-11"),
+          // }
+        );
+      }
+      navigation.goBack();
+    } catch (error) {
+      setError("Could not save data - please try again later!");
+      setIsSubmitting(false);
     }
-    navigation.goBack();
+  }
+
+  if (error && !isSubmitting) {
+    return <ErrorOverlay message={error} />;
   }
 
   //spinner

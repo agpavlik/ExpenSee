@@ -4,9 +4,12 @@ import { ExpensesContext } from "../store/expenses-context";
 import { getDateMinusDays } from "../util/date";
 import { fetchExpenses } from "../util/http";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 
 function RecentExpenses() {
   const [isFetching, setIsFetching] = useState(true); // add spinner
+  const [error, setError] = useState();
+
   const expensesCtx = useContext(ExpensesContext);
   // useContext to update data offline in addition to sending the data to the backend.
   // Therefore it is not necessary to fetch this data again.
@@ -16,14 +19,24 @@ function RecentExpenses() {
   useEffect(() => {
     async function getExpenses() {
       setIsFetching(true); // start fetching
-      const expenses = await fetchExpenses();
+      try {
+        const expenses = await fetchExpenses();
+        expensesCtx.setExpenses(expenses);
+      } catch (error) {
+        setError("Could not fetch expenses!");
+      }
+
       setIsFetching(false); // stop after fetching done
-      expensesCtx.setExpenses(expenses);
     }
 
     getExpenses();
   }, []);
   // ----
+
+  // Check error
+  if (error && !isFetching) {
+    return <ErrorOverlay message={error} />;
+  }
 
   // spinner
   if (isFetching) {
