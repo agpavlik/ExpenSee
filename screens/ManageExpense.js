@@ -1,7 +1,7 @@
-import { useContext, useLayoutEffect } from "react";
+import { useContext, useLayoutEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import Button from "../components/UI/Button";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
 import IconButton from "../components/UI/IconButton";
 import { GlobalStyles } from "../constants/styles";
 import { ExpensesContext } from "../store/expenses-context";
@@ -9,6 +9,8 @@ import ExpenseForm from "../components/ManageExpense/ExpenseForm";
 import { storeExpense, updateExpense, deleteExpense } from "../util/http";
 
 function ManageExpense({ route, navigation }) {
+  const [isSubmitting, setIsSubmitting] = useState(false); //spinner
+
   const expensesCtx = useContext(ExpensesContext);
 
   const editedExpenseId = route.params?.expenseId; // ? - safe way of drilling into an object which might be undefned.
@@ -30,7 +32,9 @@ function ManageExpense({ route, navigation }) {
 
   // Delete expense
   async function deleteExpenseHandler() {
+    setIsSubmitting(true);
     await deleteExpense(editedExpenseId);
+    // setIsSubmitting(false);
     expensesCtx.deleteExpense(editedExpenseId);
     navigation.goBack(); // goBack method is equivalent of pressing a back button
   }
@@ -41,6 +45,7 @@ function ManageExpense({ route, navigation }) {
 
   // Edit expense
   async function confirmHandler(expenseData) {
+    setIsSubmitting(true);
     if (isEditing) {
       expensesCtx.updateExpense(
         editedExpenseId,
@@ -64,6 +69,11 @@ function ManageExpense({ route, navigation }) {
       );
     }
     navigation.goBack();
+  }
+
+  //spinner
+  if (isSubmitting) {
+    return <LoadingOverlay />;
   }
 
   return (
