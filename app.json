@@ -12,16 +12,24 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.olekpavlyk.ExpenSee"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "93ca83fd-4455-4e38-acfa-7570134159a9"
+      }
     }
   }
 }
